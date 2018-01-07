@@ -6,6 +6,7 @@ from model import rnn
 from utils import config
 from utils import data_helper
 from itertools import product
+from tqdm import tqdm
 
 
 def train(inputs, labels, model, optimizer, criterion):
@@ -13,7 +14,7 @@ def train(inputs, labels, model, optimizer, criterion):
     size = inputs.size()[0]
     model.zero_grad()
     loss = 0
-    for i in range(size):
+    for i in tqdm(range(size)):
         output, hidden = model(inputs[i].unsqueeze(0), hidden)
         loss += criterion(output, labels[i])
 
@@ -42,9 +43,10 @@ def main():
     for epoch in range(cfg.max_epoch):
         inputs, labels = process(train_data)
         for idx in range(len(inputs)):
+            print('[%d/%d] %d/%d'%(epoch+1, cfg.max_epoch, idx+1, len(inputs)))
             loss = train(inputs[idx], labels[idx], model, optimizer, criterion)
-            print('[%d/%d] %d/%d loss: %.3f'%
-                  epoch, cfg.max_epoch, idx/len(inputs), loss)
+            print('[%d/%d] %d/%d loss: %.3f'%(
+                  epoch+1, cfg.max_epoch, idx+1, len(inputs), loss))
 
 
 if __name__ == '__main__':
