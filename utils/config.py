@@ -9,6 +9,10 @@ class config():
 
         self.train_file = cfg.get('DEFAULT', 'train_file')
         self.val_file = cfg.get('DEFAULT', 'val_file')
+
         self.n_input = cfg.getint('MODEL', 'n_input')
         self.n_hidden = cfg.getint('MODEL', 'n_hidden')
         self.n_categories = cfg.getint('MODEL', 'n_categories')
+
+        self.max_epoch = cfg.getint('TRAIN', 'max_epoch')
+        self.lr = cfg.getfloat('TRAIN', 'lr')
